@@ -3,9 +3,9 @@
 /****************************
  * Configuration:			*	
  ***************************/
-$urlfile = "urls";
-$title = "Linkpaste Lite";
-$limit = 15;
+$urlfile = "urls"; 			// file to store the urls
+$title = "Linkpaste Lite";	// Title of the HTML document
+$limit = 15;				// number of links to show ( 0 = no limit)
 
 
 
@@ -20,6 +20,7 @@ if($_GET['sub'] == 'OK'){
 
 
 /* Functions */
+
 function writeUrlFile(){
 	global  $url, $beschreibung, $urlfile;
 	if(!empty($url)&&!empty($beschreibung)) {		
@@ -35,6 +36,7 @@ function writeUrlFile(){
 	fclose($file);	
 	}
 }
+
 function writeIndex(){
 	$file = fopen("index.html", "w+");
 	fwrite($file, createIndex());
@@ -91,18 +93,13 @@ function createIndex() {
 function getUrls(){
 	global $urlfile, $limit;
 	$return = array();
-	$file = $urlfile;
-	$lesen = fopen($urlfile, 'rb');
-	if($limit <= 0)
-		$return = nl2br(fread($lesen, filesize($file)));
-	else {
-		$data = file($file,	FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-		if(count($data) > $limit)
-			$data = array_slice($data, count($data) - $limit);
-		foreach($data as $value)
-			$return[] = explode("\";\"", trim($value, "\""), 3);
+	$data = file($urlfile,	FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+	
+	if(count($data) > $limit && $limit > 0)
+		$data = array_slice($data, count($data) - $limit);
+	foreach($data as $value)
+		$return[] = explode("\";\"", trim($value, "\""), 3);
 	}	
-	fclose($lesen);
 	return $return;
 }
 ?>
