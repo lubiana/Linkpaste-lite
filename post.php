@@ -49,43 +49,15 @@
       $links .= "<li class=\"links\">\n\t\t\t<a href=\"". $value[0] ."\">". $value[1]. "</a><br /> " .$value[0]."\n\t\t</li>\n\t\t"; 
     }
     global $title;
-    return("
-  <!DOCTYPE html>
-  <html lang=\"en\">
-  <head>
-    <title> $title </title>
-    <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />
-    <meta name=\"generator\" content=\"Linkpaste\" />
-    <link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">
-  </head>
 
-  <body>
-    <form action=\"post.php\" method=\"GET\">
-      <ul id=\"form\">
-        <li>
-          <label>
-            <span>Url: </span>
-            <input type=\"text\" name=\"link\">
-          </label>
-        </li>
-        <li>
-          <label>
-            <span>Beschreibung: </span>
-            <input type=\"text\" name=\"beschreibung\">
-          </label>
-        </li>
-        <li>
-          <input type=\"submit\" name=\"sub\" value=\"OK\">
-        </li>
-      </ul>
-    </form>
-    <ul id=\"wrapper\">
-      $links
-    </ul>
-  </body>
+    ob_start();
 
-  </html> 
-    ");
+    require_once 'template.php';
+    $output = ob_get_contents();
+
+    ob_end_clean();
+
+    return $output;
   }
 
   function getUrls(){
