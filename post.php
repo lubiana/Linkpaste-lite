@@ -1,4 +1,8 @@
 <?php
+$filename = __DIR__.preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
+if (php_sapi_name() === 'cli-server' && is_file($filename)) {
+      return false;
+}
 
   /****************************
    * Configuration:           *
@@ -19,6 +23,7 @@
     }
 
 
+
   /* Functions */
 
   function writeUrlFile() {
@@ -26,12 +31,11 @@
     if(!empty($url) && !empty($beschreibung)) {
       $file = fopen($urlfile, 'a+');
       $urleins = 'http://';
-      if(!eregi('^http:\/\/',$url)){
+      if(!eregi('^http:\/\/',$url))
         $urleins .= $url;
-      }
-      else {
+      else 
         $urleins = $url;
-      }
+      
     fwrite($file,"\"$urleins\";\"$beschreibung\"\n");
     fclose($file);
     }
